@@ -1,0 +1,20 @@
+sudo: required
+language: generic 
+
+services:
+  - docker
+
+
+before_install:
+  - docker build -t yudetchu/UdemyExercise -f ./client/Dockerfile.dev
+
+script:
+  - docker run -e CI=true yudetchu/UdemyExercise npm test
+  # - docker run yudetchu/UdemyExercise -f npm test -- --coverage
+
+after_success:
+  - docker build -t yudetchu/multi-client ./client
+  - docker build -t yudetchu/multi-nginx ./nginx
+  - docker build -t yudetchu/multi-server ./server
+  - docker build -t yudetchu/multi-worker ./worker
+  
