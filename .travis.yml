@@ -17,4 +17,10 @@ after_success:
   - docker build -t yudetchu/multi-nginx ./nginx
   - docker build -t yudetchu/multi-server ./server
   - docker build -t yudetchu/multi-worker ./worker
-  
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push yudetchu/multi-client
+  - docker push yudetchu/multi-nginx
+  - docker push yudetchu/multi-server
+  - docker push yudetchu/multi-worker
